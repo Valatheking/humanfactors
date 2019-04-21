@@ -46,7 +46,7 @@ public class BrowserPanel extends UiPart<Region> {
      */
     public String requestsToStringForDisplay() {
         StringBuilder sb = new StringBuilder();
-        sb.append("List of Open Swap Requests:\n");
+        sb.append("List of duties");
         int counter = 0;
         for (Request request : requests) {
             if (!request.isAccepterValid()) {
