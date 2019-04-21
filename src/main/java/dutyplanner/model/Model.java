@@ -137,21 +137,13 @@ public interface Model {
     /**
      * Returns true if the model has undone personnel database states to restore.
      */
-    boolean canRedoPersonnelDatabase();
 
-    /**
-     * Restores the model's personnel database to its previous state.
-     */
     void undoPersonnelDatabase();
 
     /**
      * Restores the model's personnel database to its previously undone state.
      */
-    void redoPersonnelDatabase();
 
-    /**
-     * Saves the current personnel database state for undo/redo.
-     */
     void commitPersonnelDatabase();
 
     /**
@@ -164,11 +156,7 @@ public interface Model {
      * Returns the selected person in the filtered person list.
      * null if no person is selected.
      */
-    Person getSelectedPerson();
 
-    /**
-     * Sets the selected person in the filtered person list.
-     */
     void setSelectedPerson(Person person);
 
     /**
@@ -185,20 +173,6 @@ public interface Model {
      * Returns the duty calendar of current personnel database.
      */
     DutyCalendar getDutyCalendar();
-
-    /**
-     * Add a swap request to the model
-     */
-    void addSwapRequest(String nric, LocalDate allocatedDate, LocalDate requestedDate);
-    /**
-     * Checks a swap request to the model
-     */
-    boolean checkSwapRequestExists(String nric, LocalDate allocatedDate, LocalDate requestedDate);
-
-    /**
-     * Delete a person from requests containing that person.
-     */
-    void deleteRequestsWithPerson(Person personToDelete);
 
     /**
      * Schedule the next duty month in the model.

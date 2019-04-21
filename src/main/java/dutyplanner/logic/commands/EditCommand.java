@@ -26,7 +26,6 @@ import dutyplanner.model.Model;
 import dutyplanner.model.duty.Duty;
 import dutyplanner.model.duty.DutyMonth;
 import dutyplanner.model.duty.DutyStorage;
-import dutyplanner.model.request.Request;
 import dutyplanner.model.tag.Tag;
 import dutyplanner.commons.core.UiCommandInteraction;
 import dutyplanner.logic.CommandHistory;
@@ -148,14 +147,6 @@ public class EditCommand extends Command {
         }
         dutyStorage.replacePerson(personToEdit, editedPerson);
 
-        List<Request> requests = model.getPersonnelDatabase().getRequestList();
-        for (Request req : requests) {
-            if (req.getRequester().equals(personToEdit)) {
-                req.setRequester(editedPerson);
-            } else if (req.getAccepter().equals(personToEdit)) {
-                req.setAccepter(editedPerson);
-            }
-        }
 
         model.commitPersonnelDatabase();
         if (editedNricUserType) {

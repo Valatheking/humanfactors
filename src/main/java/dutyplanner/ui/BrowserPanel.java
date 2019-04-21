@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import dutyplanner.commons.core.LogsCenter;
-import dutyplanner.model.request.Request;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
@@ -21,14 +20,12 @@ public class BrowserPanel extends UiPart<Region> {
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
-    private final List<Request> requests;
 
     @FXML
     private TextArea textDisplay;
 
-    public BrowserPanel(List<Request> requests) {
+    public BrowserPanel() {
         super(FXML);
-        this.requests = requests;
         String initText = requestsToStringForDisplay();
         setPanelText(initText);
     }
@@ -48,12 +45,6 @@ public class BrowserPanel extends UiPart<Region> {
         StringBuilder sb = new StringBuilder();
         sb.append("List of duties");
         int counter = 0;
-        for (Request request : requests) {
-            if (!request.isAccepterValid()) {
-                counter++;
-                sb.append(counter).append(". ").append(request.toString()).append(".\n");
-            }
-        }
         return sb.toString();
     }
 

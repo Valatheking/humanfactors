@@ -5,7 +5,6 @@ import java.util.List;
 import dutyplanner.model.person.Person;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
-import dutyplanner.model.request.Request;
 
 /**
  * Unmodifiable view of a personnel database
@@ -27,5 +26,4 @@ public interface ReadOnlyPersonnelDatabase extends Observable {
     /**
      * Returns a list of requests.
      */
-    List<Request> getRequestList();
 }

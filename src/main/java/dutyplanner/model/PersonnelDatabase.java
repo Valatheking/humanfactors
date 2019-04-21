@@ -13,7 +13,6 @@ import dutyplanner.model.person.Person;
 import dutyplanner.model.person.UniquePersonList;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
-import dutyplanner.model.request.Request;
 
 /**
  * Wraps all data at the personnel database level
@@ -23,8 +22,6 @@ public class PersonnelDatabase implements ReadOnlyPersonnelDatabase {
 
     private final UniquePersonList persons;
     private final DutyCalendar dutyCalendar;
-
-    private final List<Request> requests;
 
     private final InvalidationListenerManager invalidationListenerManager = new InvalidationListenerManager();
 
@@ -38,7 +35,6 @@ public class PersonnelDatabase implements ReadOnlyPersonnelDatabase {
     {
         persons = new UniquePersonList();
         dutyCalendar = new DutyCalendar();
-        requests = new ArrayList<>();
     }
 
     public PersonnelDatabase() {}
@@ -82,18 +78,6 @@ public class PersonnelDatabase implements ReadOnlyPersonnelDatabase {
     }
 
     /**
-     * Replaces the contents of the request list with {@code requestList}.
-     */
-    public void setRequests(List<Request> requestList) {
-        this.requests.clear();
-        requestList = requestList.stream()
-                .filter(req -> req.getAllocatedDate().getMonthValue() - 1
-                        == (getDutyCalendar().getCurrentMonthIndex() + 1) % 12).collect(Collectors.toList());
-        this.requests.addAll(requestList);
-        indicateModified();
-    }
-
-    /**
      * Schedules duty for next month in {@code dutyCalendar}.
      */
     public void scheduleDutyForNextMonth(List<Person> persons,
@@ -109,7 +93,6 @@ public class PersonnelDatabase implements ReadOnlyPersonnelDatabase {
 
         setPersons(newData.getPersonList());
         setDutyCalendar(newData.getDutyCalendar());
-        setRequests(newData.getRequestList());
     }
     /**
      * Sorts the persons in the personnal database by name
@@ -176,36 +159,6 @@ public class PersonnelDatabase implements ReadOnlyPersonnelDatabase {
         indicateModified();
     }
 
-    /**
-     * Adds a swap request to the request list.
-     */
-    public void addRequest(Request request) {
-        requests.add(request);
-        indicateModified();
-    }
-    /**
-     * Checks a swap request to the request list.
-     */
-    public boolean checkRequestExists(Request request) {
-        for (Request existingRequest : requests) {
-            if (existingRequest.equals(request)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Deletes requests involving the person inputted.
-     * @param personToDelete
-     */
-    public void deleteRequestsWithPerson(Person personToDelete) {
-        List<Request> filteredRequests = requests.stream().filter(req -> !personToDelete.equals(req.getAccepter())
-                && !personToDelete.equals(req.getRequester())).collect(Collectors.toList());
-        requests.clear();
-        requests.addAll(filteredRequests);
-        indicateModified();
-    }
 
     @Override
     public void addListener(InvalidationListener listener) {
@@ -240,11 +193,6 @@ public class PersonnelDatabase implements ReadOnlyPersonnelDatabase {
     @Override
     public DutyCalendar getDutyCalendar() {
         return this.dutyCalendar;
-    }
-
-    @Override
-    public List<Request> getRequestList() {
-        return this.requests;
     }
 
     @Override

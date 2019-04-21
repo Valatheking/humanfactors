@@ -23,7 +23,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import dutyplanner.model.request.Request;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -179,22 +178,6 @@ public class ModelManager implements Model {
                 getDutySettings(), getDutyStorage());
     }
 
-    //=========== Swap Requests ===============================================================================
-
-    @Override
-    public void addSwapRequest(String nric, LocalDate allocatedDate, LocalDate requestedDate) {
-        versionedPersonnelDatabase.addRequest(new Request(findPerson(nric), allocatedDate, requestedDate));
-    }
-    @Override
-    public boolean checkSwapRequestExists(String nric, LocalDate allocatedDate, LocalDate requestedDate) {
-        return versionedPersonnelDatabase.checkRequestExists(new Request(findPerson(nric),
-                allocatedDate, requestedDate));
-    }
-
-    @Override
-    public void deleteRequestsWithPerson(Person personToDelete) {
-        versionedPersonnelDatabase.deleteRequestsWithPerson(personToDelete);
-    }
 
     //=========== Filtered Person List Accessors =============================================================
 
@@ -221,20 +204,12 @@ public class ModelManager implements Model {
         return versionedPersonnelDatabase.canUndo();
     }
 
-    @Override
-    public boolean canRedoPersonnelDatabase() {
-        return versionedPersonnelDatabase.canRedo();
-    }
 
     @Override
     public void undoPersonnelDatabase() {
         versionedPersonnelDatabase.undo();
     }
 
-    @Override
-    public void redoPersonnelDatabase() {
-        versionedPersonnelDatabase.redo();
-    }
 
     @Override
     public void commitPersonnelDatabase() {
@@ -248,10 +223,6 @@ public class ModelManager implements Model {
         return selectedPerson;
     }
 
-    @Override
-    public Person getSelectedPerson() {
-        return selectedPerson.getValue();
-    }
 
     @Override
     public void setSelectedPerson(Person person) {
